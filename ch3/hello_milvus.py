@@ -2,7 +2,7 @@
 # Execute: pip install pymilvus
 
 import numpy as np
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType
 
 milvus_client = MilvusClient("http://localhost:19530")
 fmt = "\n=== {:30} ===\n"
@@ -12,23 +12,25 @@ has_collection = milvus_client.has_collection(collection_name, timeout=5)
 if has_collection:
     milvus_client.drop_collection(collection_name)
 
-# from pymilvus import DataType
-# schema = milvus_client.create_schema(enable_dynamic_field=True)
-# schema.add_field("id", DataType.INT64, is_primary=True)
-# schema.add_field("vector", DataType.FLOAT_VECTOR, dim=dim)
+schema = milvus_client.create_schema(enable_dynamic_field=True)
+schema.add_field("id", DataType.INT64, is_primary=True)
+schema.add_field("vector", DataType.FLOAT_VECTOR, dim=dim)
 
-# index_params = milvus_client.prepare_index_params()
-# index_params.add_index(field_name = "vector", metric_type="L2")
-# milvus_client.create_collection(collection_name, schema=schema, index_params=index_params, consistency_level="Strong")
-
-milvus_client.create_collection(collection_name, dim, consistency_level="Strong", metric_type="L2")
+index_params = milvus_client.prepare_index_params()
+index_params.add_index(field_name = "vector", index_type="HNSW", metric_type="L2")
+milvus_client.create_collection(
+    collection_name,
+    schema=schema,
+    index_params=index_params,
+    consistency_level="Strong"
+)
 
 print(fmt.format(" all collections "))
 print(milvus_client.list_collections())
 print(fmt.format(f"schema of collection {collection_name}"))
 print(milvus_client.describe_collection(collection_name))
 
-rng = np.random.default_rng(seed=19530)
+rng = np.random.default_rng(seed=42)
 rows = [
         {"id": 1, "vector": rng.random((1, dim))[0], "a": 100},
         {"id": 2, "vector": rng.random((1, dim))[0], "b": 200},
@@ -64,7 +66,7 @@ print(fmt.format("Start query by specifying filtering expression"))
 query_results = milvus_client.query(collection_name, filter= "f == 600")
 assert len(query_results) == 0
 
-rng = np.random.default_rng(seed=19530)
+rng = np.random.default_rng(seed=43)
 vectors_to_search = rng.random((1, dim))
 print("Start search with retrieve several fields.")
 result = milvus_client.search(collection_name, vectors_to_search, limit=3, output_fields=["pk", "a", "b"])
