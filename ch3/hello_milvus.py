@@ -4,7 +4,7 @@
 import numpy as np
 from pymilvus import MilvusClient
 
-milvus_client = MilvusClient("http://standalone:19530")
+milvus_client = MilvusClient("http://localhost:19530")
 fmt = "\n=== {:30} ===\n"
 dim = 8
 collection_name = "hello_milvus"
@@ -13,13 +13,13 @@ if has_collection:
     milvus_client.drop_collection(collection_name)
 
 # from pymilvus import DataType
-# schema = milvus_client.create_schema(enable_dynamic_field=True) 
-# schema.add_field("id", DataType.INT64, is_primary=True) 
-# schema.add_field("vector", DataType.FLOAT_VECTOR, dim=dim) 
+# schema = milvus_client.create_schema(enable_dynamic_field=True)
+# schema.add_field("id", DataType.INT64, is_primary=True)
+# schema.add_field("vector", DataType.FLOAT_VECTOR, dim=dim)
 
-# index_params = milvus_client.prepare_index_params() 
-# index_params.add_index(field_name = "vector", metric_type="L2") 
-# milvus_client.create_collection(collection_name, schema=schema, index_params=index_params, consistency_level="Strong") 
+# index_params = milvus_client.prepare_index_params()
+# index_params.add_index(field_name = "vector", metric_type="L2")
+# milvus_client.create_collection(collection_name, schema=schema, index_params=index_params, consistency_level="Strong")
 
 milvus_client.create_collection(collection_name, dim, consistency_level="Strong", metric_type="L2")
 
