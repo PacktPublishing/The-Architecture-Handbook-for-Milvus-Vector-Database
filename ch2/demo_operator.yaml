@@ -8,7 +8,7 @@ metadata:
 spec:
   config: {}
   components:
-    image: milvusdb/milvus:v2.4.17
+    image: milvusdb/milvus:v2.5.22
     standalone:
       replicas: 1
       serviceType: LoadBalancer
