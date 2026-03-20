@@ -1,0 +1,19 @@
+# Chapter 14: Capacity Scaling - QueryNode expansion for larger datasets
+# Increases QueryNode replicas from 3 to 6 to handle datasets growing
+# from 10M to 20M vectors while maintaining search latency SLA.
+apiVersion: milvus.io/v1beta1
+kind: Milvus
+metadata:
+  name: my-milvus-cluster
+  namespace: milvus-ns
+spec:
+  components:
+    queryNode:
+      replicas: 6  # Increase replicas to 6
+      resources:
+        requests:
+          cpu: "4"
+          memory: "16Gi"
+        limits:
+          cpu: "4"
+          memory: "16Gi"

@@ -1,0 +1,19 @@
+# Chapter 14: Horizontal Scaling - QueryNode replica expansion
+# Increases QueryNode replicas from 1 to 3 to boost search throughput (QPS).
+# Each replica maintains the optimized 2 base unit (4c16g) resource config.
+apiVersion: milvus.io/v1beta1
+kind: Milvus
+metadata:
+  name: my-milvus-cluster
+  namespace: milvus-ns
+spec:
+  components:
+    queryNode:
+      replicas: 3  # Core change: increase replicas to 3
+      resources:   # Keep individual replica resource configuration unchanged
+        requests:
+          cpu: "4"
+          memory: "16Gi"
+        limits:
+          cpu: "4"
+          memory: "16Gi"

@@ -1,0 +1,19 @@
+# Chapter 14: Vertical Scaling - QueryNode resource upgrade
+# Increases QueryNode from 1 base unit (2c8g) to 2 base units (4c16g)
+# to reduce P99 search latency and increase QPS.
+apiVersion: milvus.io/v1beta1
+kind: Milvus
+metadata:
+  name: my-milvus-cluster
+  namespace: milvus-ns
+spec:
+  components:
+    queryNode:
+      replicas: 1
+      resources:
+        requests:
+          cpu: "4"          # 2x increase from "2"
+          memory: "16Gi"    # 2x increase from "8Gi"
+        limits:
+          cpu: "4"
+          memory: "16Gi"

@@ -1,0 +1,19 @@
+# Chapter 14: Baseline Configuration - QueryNode initial state
+# Single QueryNode with 1 base unit (2c8g: 2 CPU cores, 8GB memory)
+# Used as the starting point for vertical and horizontal scaling labs.
+apiVersion: milvus.io/v1beta1
+kind: Milvus
+metadata:
+  name: my-milvus-cluster
+  namespace: milvus-ns
+spec:
+  components:
+    queryNode:
+      replicas: 1
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8Gi"
+        limits:
+          cpu: "2"
+          memory: "8Gi"
