@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: one-querynode-pod-kill
+  namespace: milvus-ha-test
+spec:
+  action: pod-kill
+  mode: fixed
+  value: "1"  # Kill 1 QueryNode
+  selector:
+    namespaces:
+      - milvus-ha-test
+    labelSelectors:
+      app.kubernetes.io/instance: milvus-ha-demo
+      app.kubernetes.io/component: querynode
+  gracePeriod: 0

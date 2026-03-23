@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: multiple-querynodes-pod-kill
+  namespace: milvus-ha-test
+spec:
+  action: pod-kill
+  mode: fixed
+  value: "2"  # Kill 2 QueryNodes simultaneously
+  selector:
+    namespaces:
+      - milvus-ha-test
+    labelSelectors:
+      app.kubernetes.io/instance: milvus-ha-demo
+      app.kubernetes.io/component: querynode
+  gracePeriod: 0

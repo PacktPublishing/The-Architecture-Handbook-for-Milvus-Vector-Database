@@ -1,0 +1,13 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: active-mixcoord-pod-kill
+  namespace: milvus-ha-test
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    pods:
+      milvus-ha-test:
+        - milvus-ha-demo-milvus-mixcoord-756759f9d6-5xzgw  # replace with active mixcoord pod name
+  gracePeriod: 0

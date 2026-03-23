@@ -1,0 +1,26 @@
+apiVersion: milvus.io/v1beta1
+kind: Milvus
+metadata:
+  name: milvus-ha-demo
+  namespace: milvus-ha-test
+  labels:
+    app: milvus
+spec:
+  mode: cluster
+  config:
+    mixCoord:
+      enableActiveStandby: true
+  components:
+    image: milvusdb/milvus:v2.5.14
+    mixCoord:
+      replicas: 2
+    proxy:
+      replicas: 2
+    dataNode:
+      replicas: 3
+    indexNode:
+      replicas: 2
+    queryNode:
+      replicas: 3
+  dependencies:
+    msgStreamType: pulsar

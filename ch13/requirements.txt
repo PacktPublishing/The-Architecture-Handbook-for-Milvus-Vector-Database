@@ -1,0 +1,6 @@
+locust>=2.17.0
+pymilvus>=2.5.0
+faker
+numpy<2.0
+pandas
+pyarrow
